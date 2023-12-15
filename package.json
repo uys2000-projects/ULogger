@@ -3,7 +3,34 @@
   "version": "1.0.0",
   "description": "Logger Function adddon for Promises and Functions",
   "main": "src/index.js",
+  "live": "src/index.js",
   "repository": "https://github.com/uys2000-projects/ULogger",
   "author": "Mehmet Uysal (Uys2000) <mehmetuysal2000@yandex.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "node": {
+        "require": "./default.js",
+        "import": "./default.mjs"
+      },
+      "browser": {
+        "require": "./default.js",
+        "import": "./default.mjs"
+      },
+      "default": "./default.js"
+    },
+    "./live": {
+      "types": "./index.d.ts",
+      "node": {
+        "require": "./default.js",
+        "import": "./default.mjs"
+      },
+      "browser": {
+        "require": "./default.js",
+        "import": "./default.mjs"
+      },
+      "default": "./default.js"
+      }
+  }
 }
