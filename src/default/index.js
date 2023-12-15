@@ -53,4 +53,5 @@ const setDebugMode = function (isActive, isStringModeActive) {
   console.warn(text);
 };
 
-export { l, setDebugMode };
+exports.l = l;
+exports.setDebugMode = setDebugMode;

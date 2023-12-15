@@ -1,4 +1,4 @@
-import "../live/index.mjs";
+require("../live/index.js");
 
 const testFunction = function (result, erResult) {
   if (erResult != undefined) throw erResult;
@@ -13,8 +13,8 @@ const testPromise = function (result, erResult) {
 };
 
 const runTest = async function (isActive, isStringModeActive) {
-  global.isDebugModeActive = isActive;
-  global.isStringModeActive = isStringModeActive;
+  window.isDebugModeActive = isActive;
+  window.isStringModeActive = isStringModeActive;
   try {
     testFunction.logger("FUNCTION_TEST_SUCCESS");
     testFunction.logger("FUNCTION_TEST_ERROR", "TEST_FUNCTION_ERROR");

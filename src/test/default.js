@@ -1,4 +1,4 @@
-import { setDebugMode } from "../default/index.mjs";
+const { setDebugMode } = require("../default/index.js");
 
 const testFunction = function (result, erResult) {
   if (erResult != undefined) throw erResult;

@@ -30,11 +30,11 @@ Function.prototype.pLogger = function (...args) {
 
 const checkDebugModeActive = function () {
   if (this == undefined) return global.isDebugModeActive;
-  else return window.isDebugModeActive;
+  else return this.isDebugModeActive;
 };
 const checkStringModeActive = function () {
   if (this == undefined) return global.isStringModeActive;
-  else return window.isStringModeActive;
+  else return this.isStringModeActive;
 };
 
-export { l };
+exports.l = l;
