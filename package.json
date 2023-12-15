@@ -1,0 +1,9 @@
+{
+  "name": "u-logger",
+  "version": "1.0.0",
+  "description": "Logger Function adddon for Promises and Functions",
+  "main": "src/index.js",
+  "repository": "https://github.com/uys2000-projects/ULogger",
+  "author": "Mehmet Uysal (Uys2000) <mehmetuysal2000@yandex.com>",
+  "license": "MIT"
+}
