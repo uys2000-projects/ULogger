@@ -1,3 +1,3 @@
-const { l, setDebugMode } = require("./default/index.mjs");
+import { l, setDebugMode } from "./default/index.mjs";
 
 export { l, setDebugMode };
