@@ -1,16 +1,21 @@
-Function.prototype.logger = function (...args) {
+Function.prototype.logger = function (this, ...args) {
   return this.apply(this, args);
 };
 
-Function.prototype.pLogger = function (...args) {
-  return this.apply(this, args);
+Function.prototype.pLogger = function (this, ...args) {
+  return this.apply(this, args) as ReturnType<typeof this>;
 };
 
-let l = function (t, ...args) {
+type L = (type: "l" | "w" | "e", ...args: any[]) => any;
+let l: L = function (t, ...args) {
+  t;
   return args[args.length - 1];
 };
 
-const setDebugMode = function (isActive, isStringModeActive) {
+const setDebugMode = function (
+  isActive: boolean,
+  isStringModeActive?: boolean
+) {
   let text = "";
   if (isActive)
     text = `\n=======================================\n=============Debug Mode On=============\n=======================================\n`;
@@ -32,7 +37,7 @@ const setDebugMode = function (isActive, isStringModeActive) {
     };
 
   if (isActive) {
-    Function.prototype.logger = function (...args) {
+    Function.prototype.logger = function (this, ...args) {
       l("l", "Function", "Run", this.name, ...args);
       try {
         return l("l", "Function", "Res", this.name, this.apply(this, args));
@@ -41,17 +46,30 @@ const setDebugMode = function (isActive, isStringModeActive) {
         throw e;
       }
     };
-    Function.prototype.pLogger = function (...args) {
+    Function.prototype.pLogger = function (this, ...args) {
       l("l", "Promise", "Run", this.name, ...args);
       return new Promise((resolve, reject) => {
         this.apply(this, args)
           .then((res) => resolve(l("l", "Promise", "Res", this.name, res)))
           .catch((err) => reject(l("e", "Promise", "Err", this.name, err)));
-      });
+      }) as ReturnType<typeof this>;
     };
   }
   console.warn(text);
 };
 
-exports.l = l;
-exports.setDebugMode = setDebugMode;
+declare global {
+  interface Function {
+    logger<T extends (...args: any[]) => any>(
+      this: T,
+      ...args: Parameters<typeof this>
+    ): ReturnType<typeof this>;
+
+    pLogger<T extends (...args: any[]) => Promise<any>>(
+      this: T,
+      ...args: Parameters<typeof this>
+    ): ReturnType<typeof this>;
+  }
+}
+
+export { l, setDebugMode };

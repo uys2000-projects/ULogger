@@ -2,35 +2,30 @@
   "name": "u-logger",
   "version": "1.0.0",
   "description": "Logger Function adddon for Promises and Functions",
-  "main": "src/index.js",
-  "live": "src/index.js",
+  "main": "./lib/cjs/default.js",
+  "module": "./lib/esm/default.js",
+  "files": [
+    "lib/"
+  ],
+  "scripts": {
+    "tsc": "tsc -p tsconfig.json  && tsc -p tsconfig-cjs.json",
+    "prepublishOnly": "npm run tsc"
+  },
+  "exports": {
+    ".": {
+      "require": "./lib/cjs/default.js",
+      "import": "./lib/esm/default.js"
+    },
+    "./live": {
+      "require": "./lib/cjs/live.js",
+      "import": "./lib/esm/live.js"
+    }
+  },
   "repository": "https://github.com/uys2000-projects/ULogger",
   "author": "Mehmet Uysal (Uys2000) <mehmetuysal2000@yandex.com>",
   "license": "MIT",
-  "exports": {
-    ".": {
-      "types": "./index.d.ts",
-      "node": {
-        "require": "./default.js",
-        "import": "./default.mjs"
-      },
-      "browser": {
-        "require": "./default.js",
-        "import": "./default.mjs"
-      },
-      "default": "./default.js"
-    },
-    "./live": {
-      "types": "./index.d.ts",
-      "node": {
-        "require": "./default.js",
-        "import": "./default.mjs"
-      },
-      "browser": {
-        "require": "./default.js",
-        "import": "./default.mjs"
-      },
-      "default": "./default.js"
-      }
+  "devDependencies": {
+    "typescript": "^5.3.3",
+    "ts-loader": "^9.5.1"
   }
 }
