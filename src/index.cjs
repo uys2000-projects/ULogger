@@ -60,16 +60,24 @@ const promiseStringLogRunner = async function (...args) {
   }
 };
 
+/**
+ *
+ * @param {boolean} isActive
+ * @param {boolean} isStringModeActive
+ * @param {(type: "Function" | "Promise",status: "Run" | "Res" | "Err",...args: any[]) => any} logFuncion
+ * @param {(type: "Function" | "Promise",status: "Run" | "Res" | "Err",...args: any[]) => any} warnFuncion
+ * @param {(type: "Function" | "Promise",status: "Run" | "Res" | "Err",...args: any[]) => any} errorFuncion
+ */
 const setULogger = function (
   isActive,
   isStringModeActive,
-  logFuncion = log,
-  warnFuncion = warn,
-  errorFuncion = error
+  logFuncion,
+  warnFuncion,
+  errorFuncion
 ) {
-  log = logFuncion;
-  warn = warnFuncion;
-  error = errorFuncion;
+  if (logFuncion) log = logFuncion;
+  if (warnFuncion) warn = warnFuncion;
+  if (errorFuncion) error = errorFuncion;
   if (isActive) {
     warn("ULogger :: Active");
     logger = funtionLogRunner;

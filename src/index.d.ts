@@ -44,26 +44,6 @@ export function promiseStringLogRunner<T extends (...args: any[]) => any>(
   ...args: Parameters<typeof this>
 ): ReturnType<typeof this>;
 
-export function setULogger(
-  isActive: boolean,
-  isStringModeActive: boolean,
-  logFuncion: (
-    type: "Function" | "Promise",
-    status: "Run" | "Res" | "Err",
-    ...args: any[]
-  ) => any,
-  warnFuncion: (
-    type: "Function" | "Promise",
-    status: "Run" | "Res" | "Err",
-    ...args: any[]
-  ) => any,
-  errorFuncion: (
-    type: "Function" | "Promise",
-    status: "Run" | "Res" | "Err",
-    ...args: any[]
-  ) => any
-): void;
-
 declare global {
   interface Function {
     logger<T extends (...args: any[]) => any>(
