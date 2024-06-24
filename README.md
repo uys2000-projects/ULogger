@@ -11,9 +11,9 @@ Two type of integrations are exsist. `Default` mode and `Live` Mode. Also, these
 ### `Default` Integration Mode
 
 ```javascript
-import { setDebugMode } from "u-logger"
+import { setULogger } from "u-logger"
 
-setDebugMode(true);
+setULogger(true);
 
 
 exampleFunction.logger("test")
@@ -24,9 +24,9 @@ examplePromise.pLogger("test")
 #### `Default` Integration With `DebugAsString`
 
 ```javascript
-import { setDebugMode } from "u-logger"
+import { setULogger } from "u-logger"
 
-setDebugMode(true,true);
+setULogger(true,true);
 
 
 exampleFunction.logger("test")
@@ -51,7 +51,7 @@ For `NodeJs`
 ```javascript
 import "u-logger/test"
 
-global.isDebugModeActive = true;
+globalThis.isDebugModeActive = true;
 
 exampleFunction.logger("test")
 
