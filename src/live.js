@@ -76,5 +76,6 @@ var pLogger = function (...args) {
 
 window.isDebugModeActive = false;
 window.isStringModeActive = false;
+
 Function.prototype.logger = logger;
 Function.prototype.pLogger = pLogger;

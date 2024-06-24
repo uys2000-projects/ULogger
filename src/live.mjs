@@ -4,32 +4,14 @@ let error = console.error;
 
 const loggerThis = typeof window === "undefined" ? globalThis : window;
 
-/**
- *
- * @param  {...any} args
- * @return {ReturnType this}
- */
-/** @this Function */
 const funtionRunner = function (...args) {
   return this.apply(this, args);
 };
 
-/**
- *
- * @param  {...any} args
- * @return {ReturnType this}
- */
-/** @this Promise<any> */
 const promiseRunner = async function (...args) {
   return await this.apply(this, args);
 };
 
-/**
- *
- * @param  {...any} args
- * @return {ReturnType this}
- */
-/** @this Function */
 const funtionLogRunner = function (...args) {
   log("Function Run", ...args);
   try {
@@ -42,12 +24,6 @@ const funtionLogRunner = function (...args) {
   }
 };
 
-/**
- *
- * @param  {...any} args
- * @return {ReturnType this}
- */
-/** @this Promise */
 const promiseLogRunner = async function (...args) {
   log("Promise Run", ...args);
   try {
@@ -60,12 +36,6 @@ const promiseLogRunner = async function (...args) {
   }
 };
 
-/**
- *
- * @param  {...any} args
- * @return {ReturnType this}
- */
-/** @this Function */
 const funtionStringLogRunner = function (...args) {
   log(`Function Run :: ${args.map((a) => JSON.stringify(a)).join(" :: ")}`);
   try {
@@ -78,12 +48,6 @@ const funtionStringLogRunner = function (...args) {
   }
 };
 
-/**
- *
- * @param  {...any} args
- * @return {ReturnType this}
- */
-/** @this Promise */
 const promiseStringLogRunner = async function (...args) {
   log(`Promise Run :: ${args.map((a) => JSON.stringify(a)).join(" :: ")}`);
   try {
@@ -97,25 +61,24 @@ const promiseStringLogRunner = async function (...args) {
 };
 
 let logger = function (...args) {
-  if (loggerThis?.isDebugModeActive) {
-    if (loggerThis?.isStringModeActive)
+  if (loggerThis.isDebugModeActive) {
+    if (loggerThis.isStringModeActive)
       return funtionStringLogRunner.apply(this, args);
     else return funtionLogRunner.apply(this, args);
   } else funtionRunner.apply(this, args);
 };
 
 let pLogger = function (...args) {
-  if (loggerThis?.isDebugModeActive) {
-    if (loggerThis?.isStringModeActive)
+  if (loggerThis.isDebugModeActive) {
+    if (loggerThis.isStringModeActive)
       return promiseStringLogRunner.apply(this, args);
     else return promiseLogRunner.apply(this, args);
   } else promiseRunner.apply(this, args);
 };
 
-/**
- * uLogger
- * @memberof Function
- */
+loggerThis.isDebugModeActive = false;
+loggerThis.isStringModeActive = false;
+
 Function.prototype.logger = logger;
 Function.prototype.pLogger = pLogger;
 
