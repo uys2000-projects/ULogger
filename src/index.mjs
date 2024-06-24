@@ -79,11 +79,11 @@ const setULogger = function (
   if (warnFuncion) warn = warnFuncion;
   if (errorFuncion) error = errorFuncion;
   if (isActive) {
-    warn("ULogger :: Active");
+    warn("Function", "Res", "setULogger", "ULogger :: Active");
     logger = funtionLogRunner;
     pLogger = promiseLogRunner;
     if (isStringModeActive) {
-      warn("ULogger StringMode :: Active");
+      warn("Function", "Res", "setULogger", "ULogger :: StringMode :: Active");
       logger = funtionStringLogRunner;
       pLogger = promiseStringLogRunner;
     }
