@@ -2,32 +2,14 @@ let log = console.log;
 let warn = console.warn;
 let error = console.error;
 
-/**
- *
- * @param  {...any} args
- * @return {ReturnType this}
- */
-/** @this Function */
 const funtionRunner = function (...args) {
   return this.apply(this, args);
 };
 
-/**
- *
- * @param  {...any} args
- * @return {ReturnType this}
- */
-/** @this Promise<any> */
 const promiseRunner = async function (...args) {
   return await this.apply(this, args);
 };
 
-/**
- *
- * @param  {...any} args
- * @return {ReturnType this}
- */
-/** @this Function */
 const funtionLogRunner = function (...args) {
   log("Function", "Run", this.name, ...args);
   try {
@@ -40,12 +22,6 @@ const funtionLogRunner = function (...args) {
   }
 };
 
-/**
- *
- * @param  {...any} args
- * @return {ReturnType this}
- */
-/** @this Promise */
 const promiseLogRunner = async function (...args) {
   log("Promise", "Run", this.name, ...args);
   try {
@@ -58,12 +34,6 @@ const promiseLogRunner = async function (...args) {
   }
 };
 
-/**
- *
- * @param  {...any} args
- * @return {ReturnType this}
- */
-/** @this Function */
 const funtionStringLogRunner = function (...args) {
   const a = args.map((a) => JSON.stringify(a)).join(" :: ");
   log(`Function :: ${this.name} :: Run :: ${a}`);
@@ -77,12 +47,6 @@ const funtionStringLogRunner = function (...args) {
   }
 };
 
-/**
- *
- * @param  {...any} args
- * @return {ReturnType this}
- */
-/** @this Promise */
 const promiseStringLogRunner = async function (...args) {
   log(`Promise Run :: ${args.map((a) => JSON.stringify(a)).join(" :: ")}`);
   try {
@@ -95,15 +59,7 @@ const promiseStringLogRunner = async function (...args) {
   }
 };
 
-/**
- *
- * @param {boolean} isActive
- * @param {boolean} isStringModeActive
- * @param {Function} logFuncion
- * @param {Function} warnFuncion
- * @param {Function} errorFuncion
- */
-const setULogger = function (
+var setULogger = function (
   isActive,
   isStringModeActive,
   logFuncion = log,
@@ -132,16 +88,3 @@ let pLogger = promiseRunner;
 
 Function.prototype.logger = logger;
 Function.prototype.pLogger = pLogger;
-
-export {
-  log,
-  warn,
-  error,
-  funtionRunner,
-  promiseRunner,
-  funtionLogRunner,
-  promiseLogRunner,
-  funtionStringLogRunner,
-  promiseStringLogRunner,
-  setULogger,
-};

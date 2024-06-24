@@ -2,6 +2,8 @@ let log = console.log;
 let warn = console.warn;
 let error = console.error;
 
+const loggerThis = typeof window === "undefined" ? globalThis : window;
+
 /**
  *
  * @param  {...any} args
@@ -94,24 +96,25 @@ const promiseStringLogRunner = async function (...args) {
   }
 };
 
-let logger = (...args) => {
-  if (this.isDebugModeActive) {
-    if (this.isStringModeActive)
+let logger = function (...args) {
+  if (loggerThis?.isDebugModeActive) {
+    if (loggerThis?.isStringModeActive)
       return funtionStringLogRunner.apply(this, args);
     else return funtionLogRunner.apply(this, args);
   } else funtionRunner.apply(this, args);
 };
 
-let pLogger = (...args) => {
-  if (this.isDebugModeActive) {
-    if (this.isStringModeActive)
+let pLogger = function (...args) {
+  if (loggerThis?.isDebugModeActive) {
+    if (loggerThis?.isStringModeActive)
       return promiseStringLogRunner.apply(this, args);
     else return promiseLogRunner.apply(this, args);
   } else promiseRunner.apply(this, args);
 };
 
-Function.prototype.bind(this, logger);
-Function.prototype.bind(this, pLogger);
+Function.prototype.logger = logger;
+
+Function.prototype.pLogger = pLogger;
 
 exports.log = log;
 exports.warn = warn;

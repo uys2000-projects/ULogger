@@ -4,6 +4,7 @@
   "description": "Logger Function adddon for Promises and Functions",
   "main": "./src/index.cjs",
   "module": "./src/index.mjs",
+  "types": "./src/index.d.ts",
   "files": [
     "src/"
   ],
