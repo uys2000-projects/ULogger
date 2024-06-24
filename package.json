@@ -1,31 +1,23 @@
 {
   "name": "u-logger",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Logger Function adddon for Promises and Functions",
-  "main": "./lib/cjs/default.js",
-  "module": "./lib/esm/default.js",
+  "main": "./src/index.cjs",
+  "module": "./src/index.mjs",
   "files": [
-    "lib/"
+    "src/"
   ],
-  "scripts": {
-    "tsc": "tsc -p tsconfig.json  && tsc -p tsconfig-cjs.json",
-    "prepublishOnly": "npm run tsc"
-  },
   "exports": {
     ".": {
-      "require": "./lib/cjs/default.js",
-      "import": "./lib/esm/default.js"
+      "require": "./src/index.cjs",
+      "import": "./src/index.mjs"
     },
     "./live": {
-      "require": "./lib/cjs/live.js",
-      "import": "./lib/esm/live.js"
+      "require": "./src/live.cjs",
+      "import": "./src/live.mjs"
     }
   },
   "repository": "https://github.com/uys2000-projects/ULogger",
-  "author": "Mehmet Uysal (Uys2000) <mehmetuysal2000@yandex.com>",
-  "license": "MIT",
-  "devDependencies": {
-    "typescript": "^5.3.3",
-    "ts-loader": "^9.5.1"
-  }
+  "author": "Mehmet Uysal (Uys2000) <hi@mehmetuysal.dev>",
+  "license": "MIT"
 }
