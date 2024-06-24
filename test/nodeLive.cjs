@@ -1,4 +1,4 @@
-const live = require("../src/live.cjs");
+require("../src/live.cjs");
 const nodeTestFunction = function (isError, argument1, argument2, returnValue) {
   console.log("Arguments :", JSON.stringify(arguments));
   if (isError) throw returnValue;

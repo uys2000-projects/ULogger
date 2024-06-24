@@ -36,25 +36,26 @@ const promiseLogRunner = async function (...args) {
 
 const funtionStringLogRunner = function (...args) {
   const a = args.map((a) => JSON.stringify(a)).join(" :: ");
-  log(`Function :: ${this.name} :: Run :: ${a}`);
+  log("Function", "Run", this.name, a);
   try {
     const result = this.apply(this, args);
-    log(`Function :: ${this.name} :: Res :: ${JSON.stringify(result)}`);
+    log("Function", "Res", this.name, JSON.stringify(result));
     return result;
   } catch (err) {
-    error(`Function :: ${this.name} :: Err :: ${JSON.stringify(err)}`);
+    error("Function", "Err", this.name, JSON.stringify(err));
     throw err;
   }
 };
 
 const promiseStringLogRunner = async function (...args) {
-  log(`Promise Run :: ${args.map((a) => JSON.stringify(a)).join(" :: ")}`);
+  const a = args.map((a) => JSON.stringify(a)).join(" :: ");
+  log("Promise", "Run", this.name, a);
   try {
     const result = await this.apply(this, args);
-    log(`Promise Res :: ${JSON.stringify(result)}`);
+    log("Promise", "Res", this.name, JSON.stringify(result));
     return result;
   } catch (err) {
-    error("Promise Err", err);
+    error("Promise", "Err", this.name, JSON.stringify(err));
     throw err;
   }
 };

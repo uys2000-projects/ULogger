@@ -1,6 +1,18 @@
-export function log(...data: any[]): void;
-export function warn(...data: any[]): void;
-export function error(...data: any[]): void;
+export function log(
+  type: "Function" | "Promise",
+  status: "Run" | "Res" | "Err",
+  ...args: any[]
+): any;
+export function warn(
+  type: "Function" | "Promise",
+  status: "Run" | "Res" | "Err",
+  ...args: any[]
+): any;
+export function error(
+  type: "Function" | "Promise",
+  status: "Run" | "Res" | "Err",
+  ...args: any[]
+): any;
 
 export function funtionRunner<T extends (...args: any[]) => any>(
   this: T,
@@ -35,9 +47,21 @@ export function promiseStringLogRunner<T extends (...args: any[]) => any>(
 export function setULogger(
   isActive: boolean,
   isStringModeActive: boolean,
-  logFuncion: Function,
-  warnFuncion: Function,
-  errorFuncion: Function
+  logFuncion: (
+    type: "Function" | "Promise",
+    status: "Run" | "Res" | "Err",
+    ...args: any[]
+  ) => any,
+  warnFuncion: (
+    type: "Function" | "Promise",
+    status: "Run" | "Res" | "Err",
+    ...args: any[]
+  ) => any,
+  errorFuncion: (
+    type: "Function" | "Promise",
+    status: "Run" | "Res" | "Err",
+    ...args: any[]
+  ) => any
 ): void;
 
 declare global {
