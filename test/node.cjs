@@ -1,37 +1,40 @@
-const uLogger = require("../src/index.cjs");
+const { setULogger } = require("../src/index.cjs");
 
-/**
- *
- * @param {boolean} isError
- * @param {string} argument1
- * @param {any} argument2
- * @param {string} returnValue
- * @returns
- */
-const nodeTestFunction = function (isError, argument1, argument2, returnValue) {
-  console.log("Arguments :", JSON.stringify(arguments));
+const testFunction = function (isError, argument1, argument2, returnValue) {
   if (isError) throw returnValue;
   return returnValue;
 };
-const runTest = function () {
-  console.log(
-    `\nnodeTestFunction.logger(false, "Argument1", "Argument2", "ReturnValue")`
-  );
-  nodeTestFunction.logger(false, "Argument1", "Argument2", "ReturnValue");
-  try {
-    console.log(
-      `\nnodeTestFunction.logger(false, "Argument1", "Argument2", "ReturnValue")`
-    );
-    nodeTestFunction.logger(true, "Argument1", "Argument2", "ReturnValue");
-  } catch {}
+const testPromise = function (isError, argument1, argument2, returnValue) {
+  return new Promise((resolve, reject) => {
+    if (isError) reject(returnValue);
+    resolve(returnValue);
+  });
 };
 
-console.log("\n\nuLogger.setULogger(false, false);");
-uLogger.setULogger(false, false);
-runTest();
-console.log("\n\nuLogger.setULogger(true, false);");
-uLogger.setULogger(true, false);
-runTest();
-console.log("\n\nuLogger.setULogger(true, true);");
-uLogger.setULogger(true, true);
-runTest();
+const runFunctionTest = function () {
+  testFunction.uLog(false, "Argument1", "Argument2", "ReturnValue");
+  try {
+    testFunction.uLog(true, "Argument1", "Argument2", "ReturnValue");
+  } catch {}
+};
+const runPromiseTest = function () {
+  testPromise.uLog(false, "Argument1", "Argument2", "ReturnValue");
+  testPromise
+    .uLog(true, "Argument1", "Argument2", "ReturnValue")
+    .catch(() => "");
+};
+
+console.log("\nBefore Activate");
+runFunctionTest();
+runPromiseTest();
+console.log("After Activate");
+setULogger(
+  true,
+  (name, ...args) => console.log("c", name, ...args),
+  (name, functionResult, ...args) => console.log("fR", name, functionResult),
+  (name, promiseResult, ...args) => console.log("pR", name, promiseResult),
+  (name, functionError, ...args) => console.error("tE", name, functionError),
+  (name, promiseError, ...args) => console.error("cE", name, promiseError)
+);
+runFunctionTest();
+runPromiseTest();

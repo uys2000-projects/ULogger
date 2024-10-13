@@ -11,14 +11,21 @@
   "exports": {
     ".": {
       "require": "./src/index.cjs",
-      "import": "./src/index.mjs"
+      "import": "./src/index.mjs",
+      "types": "./src/index.d.ts"
     },
     "./live": {
       "require": "./src/live.cjs",
-      "import": "./src/live.mjs"
+      "import": "./src/live.mjs",
+      "types": "./src/live.d.ts"
     }
   },
   "repository": "https://github.com/uys2000-projects/ULogger",
   "author": "Mehmet Uysal (Uys2000) <hi@mehmetuysal.dev>",
-  "license": "MIT"
+  "license": "MIT",
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e",
+  "devDependencies": {
+    "jsdoc": "^4.0.3",
+    "rollup": "^4.24.0"
+  }
 }

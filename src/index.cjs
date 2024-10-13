@@ -1,114 +1,64 @@
-let log = console.log;
-let warn = console.warn;
-let error = console.error;
+"use strict";
 
-const funtionRunner = function (...args) {
-  return this.apply(this, args);
+let callLog = (name, ...args) => console.log("c", name, ...args);
+let fReturnLog = (name, result, ...args) => console.log("fR", name, result);
+let pReturnLog = (name, result, ...args) => console.log("pR", name, result);
+let tErrorLog = (name, err, ...args) => console.error("tE", name, err);
+let cErrorLog = (name, err, ...args) => console.error("cE", name, err);
+
+const runner = function (...args) {
+  return this(...args);
 };
 
-const promiseRunner = async function (...args) {
-  return await this.apply(this, args);
-};
+const logRunner = function (...args) {
+  callLog(this.name, ...args);
 
-const funtionLogRunner = function (...args) {
-  log("Function", "Run", this.name, ...args);
+  let result;
+  // run for functions
   try {
-    const result = this.apply(this, args);
-    log("Function", "Res", this.name, result);
-    return result;
-  } catch (err) {
-    error("Function", "Err", this.name, err);
-    throw err;
-  }
-};
-
-const promiseLogRunner = async function (...args) {
-  log("Promise", "Run", this.name, ...args);
-  try {
-    const result = await this.apply(this, args);
-    log("Promise", "Res", this.name, result);
-    return result;
-  } catch (err) {
-    error("Promise", "err", this.name, err);
-    throw err;
-  }
-};
-
-const funtionStringLogRunner = function (...args) {
-  const a = args.map((a) => JSON.stringify(a)).join(" :: ");
-  log("Function", "Run", this.name, a);
-  try {
-    const result = this.apply(this, args);
-    log("Function", "Res", this.name, JSON.stringify(result));
-    return result;
-  } catch (err) {
-    error("Function", "Err", this.name, JSON.stringify(err));
-    throw err;
-  }
-};
-
-const promiseStringLogRunner = async function (...args) {
-  const a = args.map((a) => JSON.stringify(a)).join(" :: ");
-  log("Promise", "Run", this.name, a);
-  try {
-    const result = await this.apply(this, args);
-    log("Promise", "Res", this.name, JSON.stringify(result));
-    return result;
-  } catch (err) {
-    error("Promise", "Err", this.name, JSON.stringify(err));
-    throw err;
-  }
-};
-
-/**
- *
- * @param {boolean} isActive
- * @param {boolean} isStringModeActive
- * @param {(type: "Function" | "Promise",status: "Run" | "Res" | "Err", name: string, ...args: any[]) => any} logFuncion
- * @param {(type: "Function" | "Promise",status: "Run" | "Res" | "Err", name: string, ...args: any[]) => any} warnFuncion
- * @param {(type: "Function" | "Promise",status: "Run" | "Res" | "Err", name: string, ...args: any[]) => any} errorFuncion
- */
-const setULogger = function (
-  isActive,
-  isStringModeActive,
-  logFuncion,
-  warnFuncion,
-  errorFuncion
-) {
-  if (logFuncion) log = logFuncion;
-  if (warnFuncion) warn = warnFuncion;
-  if (errorFuncion) error = errorFuncion;
-  if (isActive) {
-    warn("ULogger :: Active");
-    logger = funtionLogRunner;
-    pLogger = promiseLogRunner;
-    if (isStringModeActive) {
-      warn("ULogger StringMode :: Active");
-      logger = funtionStringLogRunner;
-      pLogger = promiseStringLogRunner;
+    result = this(...args);
+    if (!(result instanceof Promise)) {
+      fReturnLog(this.name, result, ...args);
+      return result;
     }
-    Function.prototype.logger = logger;
-    Function.prototype.pLogger = pLogger;
+  } catch (err) {
+    tErrorLog(this.name, err, ...args);
+    throw err;
+  }
+
+  // run for Promises
+  return result
+    .then((r) => {
+      pReturnLog(this.name, r, ...args);
+      return r;
+    })
+    .catch((err) => {
+      cErrorLog(this.name, err, ...args);
+      throw err;
+    });
+};
+
+const setULogger = function (
+  active = true,
+  callLogger = callLog,
+  fReturnLogger = fReturnLog,
+  pReturnLogger = pReturnLog,
+  tErrorLogger = tErrorLog,
+  cErrorLogger = cErrorLog
+) {
+  // set default loggers
+  callLog = callLogger;
+  fReturnLog = fReturnLogger;
+  pReturnLog = pReturnLogger;
+  tErrorLog = tErrorLogger;
+  cErrorLog = cErrorLogger;
+
+  Function.prototype.uLog = runner;
+  if (active) {
+    Function.prototype.uLog = logRunner;
   }
 };
 
-let logger = funtionRunner;
-let pLogger = promiseRunner;
-
-Function.prototype.logger = logger;
-Function.prototype.pLogger = pLogger;
-
-exports.log = log;
-exports.warn = warn;
-exports.error = error;
-
-exports.funtionRunner = funtionRunner;
-exports.promiseRunner = promiseRunner;
-
-exports.funtionLogRunner = funtionLogRunner;
-exports.promiseLogRunner = promiseLogRunner;
-
-exports.funtionStringLogRunner = funtionStringLogRunner;
-exports.promiseStringLogRunner = promiseStringLogRunner;
+Function.prototype.uLog = runner;
 
 exports.setULogger = setULogger;
